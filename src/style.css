@@ -53,6 +53,7 @@ p {
   transform-origin: center;
   --duration: 15s;
   animation: timer var(--duration) linear forwards;
+  animation-name: none;
 }
 
 .current-multiplication {
