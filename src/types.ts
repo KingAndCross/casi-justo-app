@@ -15,6 +15,7 @@ interface DOMElements {
   targetElement: HTMLElement;
   timerElement: HTMLElement;
   resetButton: HTMLElement;
+  multiplicationResult: HTMLElement;
   gameoverModal: HTMLDialogElement;
   inputNumbers: NodeListOf<Element>;
   numberButtons: NodeListOf<Element>;
@@ -27,6 +28,7 @@ interface SessionData {
   currentInputIndex: 0 | 1 | 2;
   currProduct: number;
   currTarget: number;
+  lastAddedPoints: number | null;
   totalPoints: number;
   minimalPossibleTotalPoints: number;
   timerID: number | undefined;

@@ -43,9 +43,30 @@ function clampIntInRange(number: number, range: [number, number]) {
   }
 }
 
+function resetAnimationOtherVersion(
+  DOMElement: Element,
+  animationName: string
+) {
+  DOMElement.style.animationName = "none";
+  DOMElement.offsetWidth;
+  DOMElement.style.animationName = animationName;
+}
+
+function setAnimation(DOMElement: Element) {
+  DOMElement.classList.add("animate");
+  DOMElement.addEventListener(
+    "animationend",
+    () => {
+      DOMElement.classList.remove("animate");
+    },
+    { once: true }
+  );
+}
+
 export {
   smallestDifferenceFromTarget,
   getRandomInt,
   gaussianRandom,
   clampIntInRange,
+  setAnimation,
 };

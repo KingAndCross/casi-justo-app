@@ -3,6 +3,7 @@
 * {
   margin: 0;
   font-family: "Poppins";
+  user-select: none;
 }
 
 :root {
@@ -15,7 +16,7 @@
   --dialog-text-color: var(--bg-color);
 }
 
-.theme-1 {
+.ice-theme {
   --text-color: #364f6b;
   --bg-color: #f5f5f5;
   --primary-color: #364f6b;
@@ -25,7 +26,7 @@
   --dialog-text-color: black;
 }
 
-.theme-2 {
+.watermelon-theme {
   --text-color: #eb455f;
   --bg-color: #fcffe7;
   --primary-color: #eb455f;
@@ -35,7 +36,7 @@
   --dialog-text-color: black;
 }
 
-.theme-3 {
+.neon-theme {
   --text-color: #eb455f;
   --bg-color: #26355d;
   --primary-color: #eb455f;
@@ -75,15 +76,45 @@ body {
 }
 
 .current-multiplication {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
   gap: 10px;
+  width: 40%;
+  height: 2.5em;
+  overflow-y: hidden;
 }
 
 .current-multiplication p {
-  font-size: 2em;
+  font-size: 1.75em;
+  color: var(--text-color);
+}
+
+.current-multiplication .product-dot {
+  position: absolute;
+  z-index: 2;
+}
+
+.current-multiplication .multiplication-result {
+  position: absolute;
+  top: 100px;
+  width: 80%;
+  color: var(--bg-color);
+  background-color: var(--text-color);
+  text-align: center;
+  z-index: 10;
+}
+
+.current-multiplication .multiplication-result.animate {
+  animation: slideUp 1s ease-in-out alternate;
+  animation-iteration-count: 2;
+}
+
+@keyframes slideUp {
+  to {
+    top: 0px;
+  }
 }
 
 .numbers-container {
@@ -137,23 +168,6 @@ body {
   animation: inputNumber 0.2s ease-out forwards;
 }
 
-.points-pop-up {
-  position: absolute;
-  top: 15%;
-  text-align: center;
-  line-height: 1.5em;
-  color: var(--text-color);
-  font-size: 2em;
-  text-shadow: var(--bg-color) 2px 2px 0px;
-  display: none;
-  animation: popup 1s ease-out infinite;
-}
-
-.points-pop-up.animate {
-  display: block;
-  animation: popup 1s ease-out forwards;
-}
-
 .rounds-indicators {
   width: 60%;
   display: flex;
@@ -175,6 +189,11 @@ body {
   animation: blink 0.3s ease-out forwards;
 }
 
+.rounds-indicators .indicator.done.perfect {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
 @keyframes timer {
   to {
     transform: scaleX(0);
@@ -190,20 +209,16 @@ body {
 
 @keyframes popup {
   to {
-    translate: 0 -50px;
+    width: 0;
     opacity: 0;
   }
 }
 
 @keyframes inputNumber {
   from {
-    translate: 0 -10px;
-    opacity: 0.8;
-    scale: 1.1;
+    scale: 1.2;
   }
   to {
-    translate: 0 0;
-    opacity: 1;
     scale: 1;
   }
 }
@@ -218,6 +233,10 @@ dialog {
   width: 70lvw;
   border-radius: 15px;
   margin: auto;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 dialog#gameover-modal {
@@ -366,6 +385,10 @@ Animation of round result
 .target-container .back {
   background-color: var(--secondary-color);
   rotate: y 180deg;
+}
+
+.target-container .back.perfect {
+  background-color: var(--accent-color);
 }
 
 @keyframes flipcard {

@@ -1,6 +1,6 @@
 import type { DOMElements, GameSession } from "./types";
 import { setTarget } from "./targetScripts";
-import { smallestDifferenceFromTarget } from "./utils";
+import { smallestDifferenceFromTarget, setAnimation } from "./utils";
 import { validateResult } from "./gameLogicMain";
 
 /* 
@@ -23,16 +23,8 @@ function _newGameListeners(
 }
 
 function _animateInput(inputElement: Element, value: number) {
-  inputElement.classList.add("animate");
   inputElement.textContent = `${value}`;
-
-  inputElement.addEventListener(
-    "animationend",
-    () => {
-      inputElement.classList.remove("animate");
-    },
-    { once: true }
-  );
+  setAnimation(inputElement);
 }
 
 function _inputNumberListeners(
@@ -54,6 +46,7 @@ function _inputNumberListeners(
       }
       gameSession.sessionData.currentInputIndex += 1;
       if (gameSession.sessionData.currentInputIndex >= 2) {
+        setCurrentMultiplication(gameSession);
         validateResult(gameSession);
         newRoundFunction(gameSession);
       }
@@ -83,12 +76,13 @@ function _checkResult(gameSession: GameSession) {
   const { currProduct, currTarget, activeButtonsValues } =
     gameSession.sessionData;
   const { singleUse } = gameSession.gameSettings;
-  const difference = Math.abs(currProduct - currTarget);
+  const productTargetDistance = Math.abs(currProduct - currTarget);
   const smallestDifference = smallestDifferenceFromTarget(
     currTarget,
     activeButtonsValues,
     singleUse
   );
+  const difference = productTargetDistance - smallestDifference;
   const points = difference > 5 ? 5 : difference;
   return { points, smallestDifference };
 }
@@ -103,12 +97,16 @@ function setGameoverMessage(gameSession: GameSession) {
 function pointsAnimation(addedPoints: number, DOMElements: DOMElements) {
   const { targetElement } = DOMElements;
   const addedPointsElement = targetElement.querySelector(".added-points");
+  if (addedPoints === 0) {
+    addedPointsElement!.classList.add("perfect");
+  }
   addedPointsElement!.innerHTML = `<p>+${addedPoints}</p>`;
   targetElement.classList.add("animate");
   targetElement.addEventListener(
     "animationend",
     () => {
       targetElement.classList.remove("animate");
+      addedPointsElement!.classList.remove("perfect");
     },
     { once: true }
   );
@@ -122,7 +120,7 @@ function setNewRoundElements(
   const { round } = gameSession.sessionData;
   clearInputs(gameSession);
   setInitialButtonState(gameSession);
-  if (round < gameSettings.numberOfRounds) {
+  if (round < gameSettings.numberOfRounds - 1) {
     nextRound(gameSession);
     setTarget(gameSession);
   } else {
@@ -130,12 +128,26 @@ function setNewRoundElements(
   }
 }
 
-function nextRound(gameSession: GameSession) {
-  const { round } = gameSession.sessionData;
+function setCurrentMultiplication(gameSession: GameSession) {
+  const { currProduct } = gameSession.sessionData;
+  const { multiplicationResult } = gameSession.DOMElements;
+  multiplicationResult.innerText = currProduct.toString();
+  setAnimation(multiplicationResult);
+}
+
+function _setIndicatorDoneStatus(gameSession: GameSession) {
+  const { round, lastAddedPoints } = gameSession.sessionData;
   const { roundIndicatorContainer } = gameSession.DOMElements;
   const indicatorsArray =
     roundIndicatorContainer.querySelectorAll(".indicator");
+  if (lastAddedPoints === 0) {
+    indicatorsArray[round].classList.add("perfect");
+  }
   indicatorsArray[round].classList.add("done");
+}
+
+function nextRound(gameSession: GameSession) {
+  _setIndicatorDoneStatus(gameSession);
   gameSession.sessionData.round += 1;
 }
 

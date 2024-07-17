@@ -44,6 +44,7 @@ function defaultGameSettings(): GameSettings {
 }
 
 function _getDOMElements(): DOMElements {
+  const multiplicationResult = document.querySelector(".multiplication-result");
   const inputNumbers = document.querySelectorAll(".input-number");
   const numberButtons = document.querySelectorAll(".number-btn");
   const resetButton = document.querySelector(".reset-btn");
@@ -52,14 +53,13 @@ function _getDOMElements(): DOMElements {
   const gameoverModal = document.getElementById("gameover-modal");
   const timerElement = document.querySelector(".timer");
   const roundIndicatorContainer = document.querySelector(".rounds-indicators");
-  const pointsPopup = document.querySelector(".points-pop-up");
 
   const htmlElements = [
     targetElement,
     timerElement,
     resetButton,
-    pointsPopup,
     roundIndicatorContainer,
+    multiplicationResult,
   ];
   const htmlNodeList = [numberButtons, inputNumbers, newgameButtons];
 
@@ -72,6 +72,7 @@ function _getDOMElements(): DOMElements {
   }
 
   return {
+    multiplicationResult: multiplicationResult as HTMLElement,
     targetElement: targetElement as HTMLElement,
     timerElement: timerElement as HTMLElement,
     resetButton: resetButton as HTMLElement,
@@ -90,12 +91,20 @@ function _defaultSessionData(): SessionData {
     currentInputIndex: 0,
     currProduct: 1,
     currTarget: 1,
+    lastAddedPoints: 0,
     totalPoints: 0,
     minimalPossibleTotalPoints: 0,
     timerID: undefined,
     delay: 300,
     activeButtonsValues: activeButtonsValues,
   };
+}
+
+function openInstructionsModal() {
+  const instructionsModal = document.getElementById(
+    "instructions-modal"
+  ) as HTMLDialogElement;
+  instructionsModal.showModal();
 }
 
 /* 
@@ -115,6 +124,7 @@ function createGameSession(gameSettings: GameSettings): GameSession {
 }
 
 function newGame(gameSession: GameSession): void {
+  gameSession.sessionData = _defaultSessionData();
   setRoundIndicators(gameSession);
   clearRoundIndicators(gameSession.DOMElements);
   setInitialButtonState(gameSession);
@@ -133,6 +143,7 @@ function newRound(gameSession: GameSession) {
 
 function validateResult(gameSession: GameSession) {
   const { points, smallestDifference } = _checkResult(gameSession);
+  gameSession.sessionData.lastAddedPoints = points;
   gameSession.sessionData.minimalPossibleTotalPoints += smallestDifference;
   pointsAnimation(points, gameSession.DOMElements);
 }
@@ -155,4 +166,5 @@ export {
   newRound,
   defaultGameSettings,
   createGameSession,
+  openInstructionsModal,
 };
