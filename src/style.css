@@ -11,14 +11,38 @@
   --primary-color: #a0c9bb;
   --secondary-color: #357b63;
   --accent-color: #62cea9;
+  --dialog-color: #f5f5f5;
+  --dialog-text-color: var(--bg-color);
 }
 
 .theme-1 {
   --text-color: #364f6b;
   --bg-color: #f5f5f5;
-  --primary-color: #a0c9bb;
+  --primary-color: #364f6b;
   --secondary-color: #3fc1c9;
   --accent-color: #fc5185;
+  --dialog-color: var(--bg-color);
+  --dialog-text-color: black;
+}
+
+.theme-2 {
+  --text-color: #eb455f;
+  --bg-color: #fcffe7;
+  --primary-color: #eb455f;
+  --secondary-color: #2b3467;
+  --accent-color: #bad7e9;
+  --dialog-color: var(--bg-color);
+  --dialog-text-color: black;
+}
+
+.theme-3 {
+  --text-color: #eb455f;
+  --bg-color: #26355d;
+  --primary-color: #eb455f;
+  --secondary-color: #af47d2;
+  --accent-color: #ff8f00;
+  --dialog-color: var(--bg-color);
+  --dialog-text-color: black;
 }
 
 body {
@@ -105,12 +129,12 @@ p {
 
 .btn:disabled {
   cursor: auto;
-  background-color: grey;
+  color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
 .btn:active:not(:disabled) {
   border-width: 2px 0 0;
-  border-color: var(--bg-color);
 }
 
 .current-multiplication .input-number.animate {
@@ -189,6 +213,8 @@ p {
 }
 
 dialog {
+  background-color: var(--dialog-color);
+  color: var(--dialog-text-color);
   position: fixed;
   border: none;
   outline: none;
@@ -204,7 +230,6 @@ dialog#gameover-modal {
 
 dialog p {
   font-size: 16px;
-  color: var(--bg-color);
   text-align: justify;
 }
 
