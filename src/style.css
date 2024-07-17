@@ -62,10 +62,6 @@ body {
   font-size: 25px;
 }
 
-p {
-  color: var(--text-color);
-}
-
 .timer {
   background-color: var(--primary-color);
   width: 80%;

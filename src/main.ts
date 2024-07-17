@@ -7,4 +7,5 @@ import {
 document.addEventListener("DOMContentLoaded", () => {
   const gameSettings = defaultGameSettings();
   let gameSession = createGameSession(gameSettings);
+  newGame(gameSession);
 });

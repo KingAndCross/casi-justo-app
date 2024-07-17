@@ -15,7 +15,8 @@ function _newGameListeners(
 
   newgameButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
-      btn.parentElement.parentElement.close();
+      const dialog = btn.parentElement!.parentElement! as HTMLDialogElement;
+      dialog.close();
       newgameFunction(gameSession);
     });
   });
@@ -23,7 +24,7 @@ function _newGameListeners(
 
 function _animateInput(inputElement: Element, value: number) {
   inputElement.classList.add("animate");
-  inputElement.textContent = value;
+  inputElement.textContent = `${value}`;
 
   inputElement.addEventListener(
     "animationend",
@@ -39,13 +40,15 @@ function _inputNumberListeners(
   newRoundFunction: (a: GameSession) => void
 ) {
   const { numberButtons } = gameSession.DOMElements;
-  numberButtons.forEach((button) => {
+  const numberBtns = numberButtons as NodeListOf<HTMLButtonElement>;
+  numberBtns.forEach((button) => {
     const { inputNumbers } = gameSession.DOMElements;
     button.addEventListener("click", () => {
+      const btnValue = parseInt(button.value);
       const { currentInputIndex } = gameSession.sessionData;
       const inputNumber = inputNumbers[currentInputIndex];
-      _animateInput(inputNumber, button.value);
-      gameSession.sessionData.currProduct *= button.value;
+      _animateInput(inputNumber, btnValue);
+      gameSession.sessionData.currProduct *= btnValue;
       if (gameSession.gameSettings.singleUse) {
         button.disabled = true;
       }
@@ -94,13 +97,13 @@ function setGameoverMessage(gameSession: GameSession) {
   const { gameoverModal } = gameSession.DOMElements;
   const { totalPoints, minimalPossibleTotalPoints } = gameSession.sessionData;
   const gameoverText = gameoverModal.querySelector(".gameover-text");
-  gameoverText.innerHTML = `Obtuviste ${totalPoints} puntos, el puntaje más bajo posible era ${minimalPossibleTotalPoints}.`;
+  gameoverText!.innerHTML = `Obtuviste ${totalPoints} puntos, el puntaje más bajo posible era ${minimalPossibleTotalPoints}.`;
 }
 
 function pointsAnimation(addedPoints: number, DOMElements: DOMElements) {
   const { targetElement } = DOMElements;
   const addedPointsElement = targetElement.querySelector(".added-points");
-  addedPointsElement.innerHTML = `<p>+${addedPoints}</p>`;
+  addedPointsElement!.innerHTML = `<p>+${addedPoints}</p>`;
   targetElement.classList.add("animate");
   targetElement.addEventListener(
     "animationend",
@@ -181,7 +184,8 @@ function getActiveButtonsValues() {
 function setInitialButtonState(gameSession: GameSession) {
   const { numberButtons } = gameSession.DOMElements;
   const { disabledNumbers } = gameSession.gameSettings;
-  numberButtons.forEach((btn) => {
+  const numberBtns = numberButtons as NodeListOf<HTMLButtonElement>;
+  numberBtns.forEach((btn) => {
     btn.disabled = disabledNumbers.includes(parseInt(btn.value));
   });
 }

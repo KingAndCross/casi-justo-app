@@ -9,7 +9,7 @@ import {
 function _getRandomIntBinomial(gameSettings: GameSettings) {
   const { numberToFocusOn, focusStrength, targetRange } = gameSettings;
   const selectedNumber =
-    numberToFocusOn[Math.floor(Math.random() * numberToFocusOn.length)];
+    numberToFocusOn![Math.floor(Math.random() * numberToFocusOn!.length)];
   const normalRandom = gaussianRandom(selectedNumber, focusStrength);
   return clampIntInRange(normalRandom, targetRange);
 }
@@ -49,7 +49,7 @@ function setTarget(gameSession: GameSession) {
     }
   }
   const targetText = targetElement.querySelector(".target-number");
-  targetText.innerHTML = `<p>${target}</p>`;
+  targetText!.innerHTML = `<p>${target}</p>`;
   gameSession.sessionData.currTarget = target;
 }
 
