@@ -19,29 +19,16 @@ import {
   _checkResult,
   setNewRoundElements,
   hookUpListeners,
+  sequenceHandler,
 } from "./gameLogicUtils";
+
+import { changeTheme } from "./utils";
 
 /* 
 ============================= 
 Game instance creation  
 ============================= 
 */
-
-function defaultGameSettings(): GameSettings {
-  const defaultGameSettings: GameSettings = {
-    numberOfRounds: 5,
-    time: 15,
-    targetRange: [10, 144],
-    disabledNumbers: [1, 2, 5, 10],
-    singleUse: true,
-    targetNumbers: "all",
-    numberToFocusOn: null,
-    focusStrength: 1,
-    timeFunction: "constant",
-    resultFeedback: false,
-  };
-  return defaultGameSettings;
-}
 
 function _getDOMElements(): DOMElements {
   const multiplicationResult = document.querySelector(".multiplication-result");
@@ -113,11 +100,14 @@ Main logic
 ============================= 
 */
 
-function createGameSession(gameSettings: GameSettings): GameSession {
+function createGameSession(gameSequence: GameSettings[]): GameSession {
   let gameSession: GameSession = {
     sessionData: _defaultSessionData(),
     DOMElements: _getDOMElements(),
-    gameSettings: gameSettings,
+    gameSettings: gameSequence[0],
+    activitySequence: gameSequence,
+    currentActivityIndex: 0,
+    firstGame: true,
   };
   hookUpListeners(gameSession, newGame, newRound);
   return gameSession;
@@ -125,6 +115,11 @@ function createGameSession(gameSettings: GameSettings): GameSession {
 
 function newGame(gameSession: GameSession): void {
   gameSession.sessionData = _defaultSessionData();
+  if (!gameSession.firstGame) {
+    sequenceHandler(gameSession);
+    changeTheme();
+  }
+  gameSession.firstGame = false;
   setRoundIndicators(gameSession);
   clearRoundIndicators(gameSession.DOMElements);
   setInitialButtonState(gameSession);
@@ -132,6 +127,7 @@ function newGame(gameSession: GameSession): void {
   setTimer(gameSession, newRound);
   clearInputs(gameSession);
   setTarget(gameSession);
+  console.log(gameSession.gameSettings);
 }
 
 function newRound(gameSession: GameSession) {
@@ -164,7 +160,6 @@ export {
   validateResult,
   gameOver,
   newRound,
-  defaultGameSettings,
   createGameSession,
   openInstructionsModal,
 };

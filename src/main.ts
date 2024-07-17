@@ -1,13 +1,13 @@
 import {
   newGame,
-  defaultGameSettings,
   createGameSession,
   openInstructionsModal,
 } from "./gameLogicMain";
+import { createSequence } from "./settingsProcessing";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const gameSettings = defaultGameSettings();
-  let gameSession = createGameSession(gameSettings);
+  const gameSequence = createSequence();
+  let gameSession = createGameSession(gameSequence);
   openInstructionsModal();
-  newGame(gameSession);
+  // newGame(gameSession, true);
 });

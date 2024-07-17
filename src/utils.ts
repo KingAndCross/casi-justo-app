@@ -43,15 +43,6 @@ function clampIntInRange(number: number, range: [number, number]) {
   }
 }
 
-function resetAnimationOtherVersion(
-  DOMElement: Element,
-  animationName: string
-) {
-  DOMElement.style.animationName = "none";
-  DOMElement.offsetWidth;
-  DOMElement.style.animationName = animationName;
-}
-
 function setAnimation(DOMElement: Element) {
   DOMElement.classList.add("animate");
   DOMElement.addEventListener(
@@ -63,10 +54,46 @@ function setAnimation(DOMElement: Element) {
   );
 }
 
+/* 
+Utils related to the settings creation
+ */
+
+function getQueryParameters(eraseURI: boolean = false) {
+  const currentUrl = window.location.href;
+  const urlParts = currentUrl.split("?");
+  if (eraseURI) {
+    history.replaceState(null, "", urlParts[0]);
+  }
+  return urlParts[1] || "";
+}
+
+function setSequenceArray(sequenceString: string): string[][] {
+  let sequenceArray = sequenceString.split("+");
+  let resultArray = sequenceArray.map((paramString) => {
+    return paramString.split(".");
+  });
+  return resultArray;
+}
+
+function changeTheme() {
+  const themes = [
+    "default-theme",
+    "ice-theme",
+    "watermelon-theme",
+    "neon-theme",
+  ];
+  const currentThemeIndex = themes.indexOf(document.body.className);
+  const nextThemeIndex = (currentThemeIndex + 1) % themes.length;
+  document.body.className = themes[nextThemeIndex];
+}
+
 export {
   smallestDifferenceFromTarget,
   getRandomInt,
   gaussianRandom,
   clampIntInRange,
   setAnimation,
+  getQueryParameters,
+  setSequenceArray,
+  changeTheme,
 };

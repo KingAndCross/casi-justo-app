@@ -9,7 +9,7 @@ Set up starting listeners
 
 function _newGameListeners(
   gameSession: GameSession,
-  newgameFunction: (a: GameSession) => void
+  newgameFunction: (a: GameSession, b?: boolean) => void
 ) {
   const { newgameButtons } = gameSession.DOMElements;
 
@@ -56,7 +56,7 @@ function _inputNumberListeners(
 
 function hookUpListeners(
   gameSession: GameSession,
-  newgameFunction: (a: GameSession) => void,
+  newgameFunction: (a: GameSession, b?: boolean) => void,
   newRoundFunction: (a: GameSession) => void
 ) {
   const { resetButton } = gameSession.DOMElements;
@@ -210,6 +210,19 @@ function setRoundIndicators(gameSession: GameSession) {
   roundIndicatorContainer.innerHTML = indicatorsHtml;
 }
 
+function sequenceHandler(gameSession: GameSession) {
+  const { currentActivityIndex } = gameSession;
+  const { activitySequence } = gameSession;
+
+  if (activitySequence !== null && currentActivityIndex !== null) {
+    if (currentActivityIndex < activitySequence.length - 1) {
+      gameSession.currentActivityIndex! += 1;
+      gameSession.gameSettings =
+        activitySequence[gameSession.currentActivityIndex!];
+    }
+  }
+}
+
 export {
   setRoundIndicators,
   clearRoundIndicators,
@@ -223,4 +236,5 @@ export {
   _checkResult,
   setNewRoundElements,
   hookUpListeners,
+  sequenceHandler,
 };

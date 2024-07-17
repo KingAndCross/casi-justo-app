@@ -40,6 +40,9 @@ interface GameSession {
   sessionData: SessionData;
   DOMElements: DOMElements;
   gameSettings: GameSettings;
+  activitySequence: GameSettings[] | null;
+  currentActivityIndex: number | null;
+  firstGame: boolean;
 }
 
 export type { SessionData, DOMElements, GameSettings, GameSession };
