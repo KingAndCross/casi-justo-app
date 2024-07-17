@@ -48,7 +48,9 @@ function setTarget(gameSession: GameSession) {
       maxTries -= 1;
     }
   }
-  targetElement.innerHTML = `<p>${target}</p>`;
+  const targetText = targetElement.querySelector(".target-number");
+  targetText.innerHTML = `<p>${target}</p>`;
+  gameSession.sessionData.currTarget = target;
 }
 
 export { setTarget };

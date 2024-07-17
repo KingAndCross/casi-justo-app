@@ -68,6 +68,7 @@ function hookUpListeners(
   _inputNumberListeners(gameSession, newRoundFunction);
   resetButton.addEventListener("click", () => {
     clearInputs(gameSession);
+    setInitialButtonState(gameSession);
   });
 }
 
@@ -97,27 +98,14 @@ function setGameoverMessage(gameSession: GameSession) {
 }
 
 function pointsAnimation(addedPoints: number, DOMElements: DOMElements) {
-  const { pointsPopup } = DOMElements;
-  const msg = (() => {
-    if (addedPoints === 0) {
-      return "¡Justo!";
-    } else if (addedPoints < 4) {
-      return "¡Casi!";
-    } else {
-      return "";
-    }
-  })();
-  pointsPopup.innerHTML = `
-          <h3>${msg}</h3>
-          <h3>+${addedPoints}</h3>
-      `;
-
-  pointsPopup.classList.add("animate");
-
-  pointsPopup.addEventListener(
+  const { targetElement } = DOMElements;
+  const addedPointsElement = targetElement.querySelector(".added-points");
+  addedPointsElement.innerHTML = `<p>+${addedPoints}</p>`;
+  targetElement.classList.add("animate");
+  targetElement.addEventListener(
     "animationend",
     () => {
-      pointsPopup.classList.remove("animate");
+      targetElement.classList.remove("animate");
     },
     { once: true }
   );

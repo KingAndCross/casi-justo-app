@@ -5,7 +5,7 @@ interface GameSettings {
   disabledNumbers: number[];
   singleUse: boolean;
   targetNumbers: "exact-results" | "non-exact-results" | "all";
-  numberToFocusOn: number[];
+  numberToFocusOn: number[] | null;
   focusStrength: number;
   timeFunction: "constant";
   resultFeedback: boolean;
@@ -19,7 +19,6 @@ interface DOMElements {
   inputNumbers: NodeListOf<Element>;
   numberButtons: NodeListOf<Element>;
   newgameButtons: NodeListOf<Element>;
-  pointsPopup: HTMLElement;
   roundIndicatorContainer: HTMLElement;
 }
 

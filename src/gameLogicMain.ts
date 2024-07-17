@@ -35,7 +35,7 @@ function defaultGameSettings(): GameSettings {
     disabledNumbers: [1, 2, 5, 10],
     singleUse: true,
     targetNumbers: "all",
-    numberToFocusOn: [49, 56],
+    numberToFocusOn: null,
     focusStrength: 1,
     timeFunction: "constant",
     resultFeedback: false,
@@ -47,7 +47,7 @@ function _getDOMElements(): DOMElements {
   const inputNumbers = document.querySelectorAll(".input-number");
   const numberButtons = document.querySelectorAll(".number-btn");
   const resetButton = document.querySelector(".reset-btn");
-  const targetElement = document.querySelector(".target-number");
+  const targetElement = document.querySelector(".target-container");
   const newgameButtons = document.querySelectorAll(".newgame-btn");
   const gameoverModal = document.getElementById("gameover-modal");
   const timerElement = document.querySelector(".timer");
@@ -75,7 +75,6 @@ function _getDOMElements(): DOMElements {
     targetElement: targetElement as HTMLElement,
     timerElement: timerElement as HTMLElement,
     resetButton: resetButton as HTMLElement,
-    pointsPopup: pointsPopup as HTMLElement,
     roundIndicatorContainer: roundIndicatorContainer as HTMLElement,
     numberButtons: numberButtons as NodeListOf<Element>,
     inputNumbers: inputNumbers as NodeListOf<Element>,
