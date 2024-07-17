@@ -41,7 +41,7 @@
   --primary-color: #eb455f;
   --secondary-color: #af47d2;
   --accent-color: #ff8f00;
-  --dialog-color: var(--bg-color);
+  --dialog-color: white;
   --dialog-text-color: black;
 }
 
