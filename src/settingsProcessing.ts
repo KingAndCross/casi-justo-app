@@ -23,26 +23,38 @@ function namedSettings(
   settings: GameSettings
 ): GameSettings {
   switch (settingString) {
-    case "low-numbers":
+    case "low-targets":
       settings.targetRange = [10, 50];
       break;
-    case "high-numbers":
+    case "high-targets":
       settings.targetRange = [50, 144];
+      break;
+    case "slow-pace":
+      settings.time = 25;
       break;
     case "fast-pace":
       settings.time = 8;
       break;
+    case "ten-rounds":
+      settings.numberOfRounds = 10;
+      break;
     case "thirt-fifties-focus":
       settings.numberToFocusOn = [30, 50];
       break;
-    case "all-off":
+    case "non-exact-targets":
       settings.targetNumbers = "non-exact-results";
       break;
-    case "the-tables":
+    case "exact-targets":
       settings.targetNumbers = "exact-results";
       break;
-    case "the-hard-tables":
+    case "non-easy-factors":
       settings.disabledNumbers = [1, 2, 5, 10];
+      break;
+    case "non-hard-factors":
+      settings.disabledNumbers = [6, 7, 8, 12];
+      break;
+    case "non-squares":
+      settings.singleUse = true;
       break;
   }
   return settings;

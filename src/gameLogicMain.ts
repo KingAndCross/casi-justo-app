@@ -22,7 +22,7 @@ import {
   sequenceHandler,
 } from "./gameLogicUtils";
 
-import { changeTheme } from "./utils";
+import { blockClicks, changeTheme } from "./utils";
 
 /* 
 ============================= 
@@ -127,13 +127,14 @@ function newGame(gameSession: GameSession): void {
   setTimer(gameSession, newRound);
   clearInputs(gameSession);
   setTarget(gameSession);
-  console.log(gameSession.gameSettings);
 }
 
 function newRound(gameSession: GameSession) {
   setTimer(gameSession, newRound);
+  blockClicks();
   setTimeout(() => {
     setNewRoundElements(gameSession, gameOver);
+    blockClicks(false);
   }, gameSession.sessionData.delay);
 }
 

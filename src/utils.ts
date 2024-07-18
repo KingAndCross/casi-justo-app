@@ -87,6 +87,14 @@ function changeTheme() {
   document.body.className = themes[nextThemeIndex];
 }
 
+function blockClicks(block: boolean = true) {
+  if (!block) {
+    document.body.style.pointerEvents = "auto";
+    return;
+  }
+  document.body.style.pointerEvents = "none";
+}
+
 export {
   smallestDifferenceFromTarget,
   getRandomInt,
@@ -96,4 +104,5 @@ export {
   getQueryParameters,
   setSequenceArray,
   changeTheme,
+  blockClicks,
 };

@@ -89,9 +89,9 @@ function _checkResult(gameSession: GameSession) {
 
 function setGameoverMessage(gameSession: GameSession) {
   const { gameoverModal } = gameSession.DOMElements;
-  const { totalPoints, minimalPossibleTotalPoints } = gameSession.sessionData;
+  const { totalPoints } = gameSession.sessionData;
   const gameoverText = gameoverModal.querySelector(".gameover-text");
-  gameoverText!.innerHTML = `Obtuviste ${totalPoints} puntos, el puntaje más bajo posible era ${minimalPossibleTotalPoints}.`;
+  gameoverText!.innerHTML = `¡Obtuviste ${totalPoints} puntos! (recuerda, entre menos mejor!) Sigue a la siguiente ronda.`;
 }
 
 function pointsAnimation(addedPoints: number, DOMElements: DOMElements) {
@@ -124,6 +124,7 @@ function setNewRoundElements(
     nextRound(gameSession);
     setTarget(gameSession);
   } else {
+    nextRound(gameSession);
     gameoverFunction(gameSession);
   }
 }
